@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+  // remova ou comente a linha abaixo para usar o caminho padrão (node_modules/.prisma/client)
+  // output = "./src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url=env("DATABASE_URL")
+}
+
+model UserType {
+  id    Int     @id @default(autoincrement())
+  name  String
+  users User[]
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  name       String
+  email      String    @unique
+  password   String
+  userTypeId Int
+  userType   UserType  @relation(fields: [userTypeId], references: [id])
+  purchases  Purchase[]
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  stock       Int
+  createdAt   DateTime @default(now())
+}
+
+model Purchase {
+  id        Int           @id @default(autoincrement())
+  userId    Int
+  user      User          @relation(fields: [userId], references: [id])
+  items     PurchaseItem[]
+  createdAt DateTime      @default(now())
+}
+
+model PurchaseItem {
+  id          Int       @id @default(autoincrement())
+  productId   Int
+  product     Product   @relation(fields: [productId], references: [id])
+  purchaseId  Int
+  purchase    Purchase  @relation(fields: [purchaseId], references: [id])
+  quantity    Int
+  totalPrice  Float
+}

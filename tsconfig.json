@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "outDir": "dist",
+    // Compila a partir de `src` para que o arquivo principal venha para `dist/app.js`
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true
+  }
+}
